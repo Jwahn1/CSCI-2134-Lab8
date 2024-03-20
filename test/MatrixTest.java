@@ -9,9 +9,9 @@
 
 /*  FIXLIST: Missing Test Cases based on specification requirements
     0. Passing bad indices to getElem() not tested.  getElem should generate an exception in this case.
-    1. passing indices bigger than height or width to getElem() not tested.
-    2. passing bad indices to setElem() not test.
-    3.
+    1. passing indices bigger than height or width to getElem() not tested,getElem should generate an exception in this case
+    2. passing bad indices to setElem() not tested,getElem should generate an exception in this case
+    3. passing bad matrix inputs to add() is not tested, add() should generate two possible exceptions.
     4.
     5.
     6.
@@ -124,6 +124,19 @@ class MatrixTest {
         } catch (Matrix.NullMatrixException e) {
             fail("Exception occurred where none should have " + e.getMessage());
         }
+    }
+
+    void add_BadInput(){
+        Matrix m = new Matrix(new Scanner(simpleMatrix));
+        Matrix p = new Matrix(new Scanner(nonSqMatrix));
+        //both types of addition should return an exception
+       try{
+           m.add(p);
+           m.add(null);
+        }catch(Matrix.DimensionMismatchException | Matrix.NullMatrixException e){
+            assertTrue(true);
+        }
+
     }
 
     @Test
