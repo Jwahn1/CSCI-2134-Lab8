@@ -11,9 +11,9 @@
     0. Passing bad indices to getElem() not tested.  getElem should generate an exception in this case.
     1. passing indices bigger than height or width to getElem() not tested,getElem should generate an exception in this case
     2. passing bad indices to setElem() not tested,getElem should generate an exception in this case
-    3. passing bad matrix inputs to add() is not tested, add() should generate two possible exceptions.
-    4.
-    5.
+    3. passing bad matrix inputs to add() is not tested, add() should return null value.
+    4. passing bad matrix inputs to multiplyWithScalar() is not tested, method should return null value.
+    5. passing bad matrix inputs to multiplyWithMatrix() is not tested, method should return null value.
     6.
     7.
     8.
@@ -125,20 +125,23 @@ class MatrixTest {
             fail("Exception occurred where none should have " + e.getMessage());
         }
     }
-
+    @Test
     void add_BadInput(){
         Matrix m = new Matrix(new Scanner(simpleMatrix));
         Matrix p = new Matrix(new Scanner(nonSqMatrix));
-        //both types of addition should return an exception
+        Matrix res = new Matrix(new Scanner(simpleMatrix));
+        //both types of addition should return an exception and null
        try{
-           m.add(p);
-           m.add(null);
+         m.add(p,res);
+         m.add(null);
         }catch(Matrix.DimensionMismatchException | Matrix.NullMatrixException e){
-            assertTrue(true);
+           assertNull(res,"add() does not return null when given mismatched matrix as input for addition");
+           assertNull(m,"add() does not return null when give a null matrix as input for addition");
         }
 
     }
 
+    //note: equals test are good since specification dont detail exceptions
     @Test
     void equals() {
         Matrix m = new Matrix(new Scanner(simpleMatrix));
@@ -171,6 +174,24 @@ class MatrixTest {
     }
 
     @Test
+    void multiplyWithScalar_BadInput(){
+        Matrix m = new Matrix(new Scanner(simpleMatrix));
+        Matrix p = new Matrix(new Scanner(nonSqMatrix));
+        Matrix res = null;
+
+        //both types of multiplication should return an exception and return null
+        try{
+            m.multiplyWithScalar(-1,p);
+            m.multiplyWithScalar(-1,res);
+        }catch(Matrix.DimensionMismatchException | Matrix.NullMatrixException e){
+            assertNull(p,"multiplyWithScalar() does not return null when given mismatched matrix as input for res");
+            assertNull(res,"multiplyWithScalar() does not return null when give a null matrix as input for res");
+        }
+
+    }
+
+
+    @Test
     void multiplyWithMatrix() {
         try {
             Matrix m = new Matrix(new Scanner(simpleMatrix));
@@ -184,6 +205,25 @@ class MatrixTest {
         } catch (Matrix.NullMatrixException e) {
             fail("Exception occurred where none should have " + e.getMessage());
         }
+    }
+
+    @Test
+    void multiplyWithMatrix_BadInput(){
+        Matrix m = new Matrix(new Scanner(simpleMatrix));
+        Matrix p = new Matrix(new Scanner(nonSqMatrix));
+        Matrix n = null;
+        Matrix res = new Matrix(new Scanner(simpleMatrix));
+        Matrix res2 = new Matrix(new Scanner(simpleMatrix));
+
+        //both types of multiplication should return an exception and return null
+        try{
+            m.multiplyWithMatrix(p,res);
+            m.multiplyWithMatrix(n,res2);
+        }catch(Matrix.DimensionMismatchException | Matrix.NullMatrixException e){
+            assertNull(res,"multiplyWithMatrix() does not return null when given mismatched matrix as input for res");
+            assertNull(res2,"multiplyWithMatrix() does not return null when give a null matrix as input for res");
+        }
+
     }
 
     @Test
