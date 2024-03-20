@@ -9,7 +9,7 @@
 
 /*  FIXLIST: Missing Test Cases based on specification requirements
     0. Passing bad indices to getElem() not tested.  getElem should generate an exception in this case.
-    1.
+    1. passing indices bigger than height or width not tested.
     2.
     3.
     4.
@@ -47,6 +47,23 @@ class MatrixTest {
             assertTrue(true);
         }
     }
+
+    //test checks whether getElem() returns correct exception for inputs bigger than this.height or this.width
+    @Test
+    void getElem_BadHeightWidth() {
+        Matrix m = new Matrix(new Scanner(simpleMatrix));
+        try {
+            m.getElem(1, 5);
+        } catch (IndexOutOfBoundsException e) {
+            assertTrue(true);
+        }
+        try {
+            m.getElem(6, 1);
+        } catch (IndexOutOfBoundsException e) {
+            assertTrue(true);
+        }
+    }
+
 
     @Test
     void setElem() {
